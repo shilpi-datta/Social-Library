@@ -2,10 +2,20 @@
 session_start();
 
 
+
 $_SESSION["loggedin"] = false;
-        $_SESSION["user_id"] = "";
-        $_SESSION["user_name"] = "";            
-       
+$_SESSION["user_id"] = "";
+$_SESSION["user_name"] = "";
+
+header("Location: index.php");
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+include_once("header.php");
 ?>
 
 <html>
@@ -17,8 +27,15 @@ $_SESSION["loggedin"] = false;
 </head>
 
 <body>
+    <?php
+    include_once("top.php");
+    ?>
     <h1>You are successfully logged out</h1>
-    <a href="index.php">Home</a>  
+
+    <?php
+    include_once("footer.php");
+    ?>
+
 </body>
 
 </html>

@@ -1,14 +1,6 @@
 <?php
 session_start();
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<?php
-include_once("header.php");
-
-
 if (isset($_POST['email'])) {
 
     $email = $_POST['email'];
@@ -34,11 +26,10 @@ if (isset($_POST['email'])) {
         while ($row = $result->fetch_assoc()) {
             $_SESSION["user_id"] = $row["user_id"];
             $_SESSION["user_name"] = $row["name"];            
-        }
-        echo "Login successful";
+        }        
         $_SESSION["loggedin"] = true;
-        ?>
-        <a href="account.php">My account</a>
+        header("Location: index.php");
+        ?>        
     <?php
     } else {
         echo "Login failed";
@@ -46,6 +37,15 @@ if (isset($_POST['email'])) {
     }
     $conn->close();
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+include_once("header.php");
+
+
+
 
 ?>
 

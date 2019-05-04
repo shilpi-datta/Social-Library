@@ -1,12 +1,5 @@
 <?php
 session_start();
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<?php
-include_once("header.php");
-
 
 if (isset($_POST['name'])) {
 
@@ -32,7 +25,7 @@ if (isset($_POST['name'])) {
     VALUES ('{$name}', '{$locality}','{$phone}','{$email}','{$password}')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+        header("Location: login.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
@@ -41,6 +34,15 @@ if (isset($_POST['name'])) {
 }
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+include_once("header.php");
+?>
+
+
 
 <html>
 
