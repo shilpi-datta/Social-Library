@@ -1,5 +1,12 @@
 <?php
 session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+include_once("header.php");
+
 
 if (isset($_POST['name'])) {
 
@@ -44,10 +51,10 @@ if (isset($_POST['name'])) {
 </head>
 
 <body>
-    <h1>Welcome to Social Library</h1>
 
-    <a href="login.php">Login</a>
-    <a href="register.php">Register</a>
+    <?php
+    include_once("top.php");
+    ?>
 
     <h2>Registration Form</h2>
     <form method="POST" action="register.php">
@@ -58,7 +65,11 @@ if (isset($_POST['name'])) {
         <input type="password" name="password" placeholder="Password">
         <input type="Submit" name="Submit">
     </form>
-    <a href="index.php">Home</a>
+
+    <?php
+    include_once("footer.php");
+    ?>
 </body>
+
 
 </html>

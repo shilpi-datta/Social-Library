@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+include_once("header.php");
+
+
 if (isset($_POST['email'])) {
 
     $email = $_POST['email'];
@@ -50,18 +58,21 @@ if (isset($_POST['email'])) {
 </head>
 
 <body>
-    <h1>Welcome to Social Library</h1>
+<?php
+    include_once("top.php");
+    ?>
 
-    <a href="login.php">Login</a>
-    <a href="register.php">Register</a>
-
-    <h2>Registration Form</h2>
+    <h2>Login here</h2>
     <form method="POST" action="login.php">
         <input type="text" name="email" placeholder="Email Address">
         <input type="password" name="password" placeholder="Password">
         <input type="Submit" name="Submit">
     </form> 
-    <a href="index.php">Home</a> 
+    
+<?php
+include_once("footer.php");
+?>
+
 </body>
 
 </html>

@@ -1,5 +1,12 @@
 <?php
 session_start();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+include_once("header.php");
 
 if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
 
@@ -43,7 +50,9 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
 </head>
 
 <body>
-    <h1>Welcome to Social Library</h1>
+    <?php
+    include_once("top.php");
+    ?>
 
     <h2>Book Registration Form</h2>
     <form method="POST" action="account.php">
@@ -53,7 +62,9 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
         <input type="text" name="copies" placeholder="Number of copies">
         <input type="Submit" name="Submit">
     </form>
-    <a href="index.php">Home</a>
+    <?php
+    include_once("footer.php");
+    ?>
 </body>
 
 </html>
