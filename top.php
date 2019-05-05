@@ -8,6 +8,7 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <?php
@@ -30,6 +31,24 @@
             <?php
         }
         ?>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Select area
+                </a>
+                <div class="dropdown-menu">
+                    <?php
+                    $sql = "SELECT distinct locality FROM `users`";
+                    $result = $conn->query($sql);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <a class="dropdown-item" href="#"><?= $row["locality"] ?></a>
+                        <?php                        
+                    }                    
+                }
+                ?>                    
+                </div>
+            </li>
         </ul>
     </div>
 </nav>

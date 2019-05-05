@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("utility/Database.php");
 ?>
 
 <!DOCTYPE html>
@@ -15,18 +16,6 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
     $category = $_POST['category'];
     $copies = $_POST['copies'];
 
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "library";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
     $sql = "INSERT INTO `book_list` (`owner_id`,`name`,`writer`,`category`,`copies`)
     VALUES ('{$_SESSION["user_id"]}','{$name}', '{$writer}','{$category}','{$copies}')";
 
@@ -35,8 +24,6 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    $conn->close();
 }
 
 ?>

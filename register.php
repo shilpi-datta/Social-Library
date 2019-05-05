@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("utility/Database.php");
 
 if (isset($_POST['name'])) {
 
@@ -7,30 +8,16 @@ if (isset($_POST['name'])) {
     $locality = $_POST['locality'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "library";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $pass = $_POST['password'];
 
     $sql = "INSERT INTO `users` (`name`,`locality`,`phone`,`email`,`password`)
-    VALUES ('{$name}', '{$locality}','{$phone}','{$email}','{$password}')";
+    VALUES ('{$name}', '{$locality}','{$phone}','{$email}','{$pass}')";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: login.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-
-    $conn->close();
 }
 
 ?>

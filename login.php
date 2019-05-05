@@ -1,22 +1,11 @@
 <?php
 session_start();
+require_once("utility/Database.php");
 
 if (isset($_POST['email'])) {
 
     $email = $_POST['email'];
     $pass = $_POST['password'];
-
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "library";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     $sql = "SELECT `user_id`,`name`,`email`, `password` FROM users WHERE `email`='{$email}' AND `password`='{$pass}' LIMIT 1";
     $result = $conn->query($sql);
@@ -25,17 +14,16 @@ if (isset($_POST['email'])) {
         // output data of each row
         while ($row = $result->fetch_assoc()) {
             $_SESSION["user_id"] = $row["user_id"];
-            $_SESSION["user_name"] = $row["name"];            
-        }        
+            $_SESSION["user_name"] = $row["name"];
+        }
         $_SESSION["loggedin"] = true;
         header("Location: index.php");
-        ?>        
+        ?>
     <?php
-    } else {
-        echo "Login failed";
-        $_SESSION["loggedin"] = false;
-    }
-    $conn->close();
+} else {
+    echo "Login failed";
+    $_SESSION["loggedin"] = false;
+}
 }
 ?>
 <!DOCTYPE html>
@@ -58,7 +46,7 @@ include_once("header.php");
 </head>
 
 <body>
-<?php
+    <?php
     include_once("top.php");
     ?>
 
@@ -68,10 +56,10 @@ include_once("header.php");
         <input type="password" name="password" placeholder="Password">
         <input type="Submit" name="Submit">
     </form> 
-    
-<?php
-include_once("footer.php");
-?>
+
+    <?php
+    include_once("footer.php");
+    ?>
 
 </body>
 

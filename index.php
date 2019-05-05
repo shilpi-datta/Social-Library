@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once("utility/Database.php");
 ?>
 
 <!DOCTYPE html>
@@ -27,33 +28,24 @@ include_once("header.php");
             <div class="col-sm-4">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="account.php">Add Book</a>
+
+                        <a class="nav-link" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="account.php" <?php } else { ?> href="login.php" <?php } ?>>Add Book</a>
+
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Borrow Book</a>
+                        <a class="nav-link" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrow.php" <?php } else { ?> href="login.php" <?php } ?>>Borrow Book</a>
                     </li>
                 </ul>
                 <hr class="d-sm-none">
             </div>
             <div class="col-sm-8">
-                <?php
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "library";
-
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                // Check connection
-                if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                }
-
-                $sql = "SELECT `name`,`writer`,`category`, `copies` FROM book_list";
+                <?php                                
+                
+                $sql = "SELECT `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
+                join `users` on `book_list`.`owner_id` = `users`.`user_id`";
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
-                    // echo "<table><tr><th>Book name</th><th>Writer</th><th>Category</th><th>Number of copies</th></tr>";
 
                     // output data of each row
                     while ($row = $result->fetch_assoc()) {
@@ -61,11 +53,11 @@ include_once("header.php");
 
                         <div class="media border p-3">
                             <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
-                            
+
                             <div class="media-body">
-                                <h4><?=$row["name"] ?> <small><i>Posted on February 19, 2016</i></small></h4>
-                                <p>By <?=$row["writer"] ?></p>
-                                <span class="badge badge-secondary"><?=$row["category"]?></span>    
+                                <h4><?= $row["bookname"] ?> <small><i>Posted by <?=$row["username"]?> on February 19, 2016</i></small></h4>
+                                <p>By <?= $row["writer"] ?></p>
+                                <span class="badge badge-secondary"><?= $row["category"] ?></span>
                             </div>
                         </div>
 
@@ -74,8 +66,7 @@ include_once("header.php");
                 }
             } else {
                 echo "No result found";
-            }
-            $conn->close();
+            }            
             ?>
 
             </div>
