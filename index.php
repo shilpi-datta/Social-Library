@@ -33,11 +33,11 @@ include_once("header.php");
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
 
-                        <a class="nav-link" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="account.php" <?php } else { ?> href="login.php" <?php } ?>>Add Book</a>
+                        <a class="nav-link" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="account.php" <?php } else { ?> href="login.php" <?php } ?>>Lend Books</a>
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrow.php" <?php } else { ?> href="login.php" <?php } ?>>Borrow Book</a>
+                        <a class="nav-link" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrowed.php" <?php } else { ?> href="login.php" <?php } ?>>Borrowed Books</a>
                     </li>
                 </ul>
                 <hr class="d-sm-none">
@@ -53,7 +53,7 @@ include_once("header.php");
                     ?> 
                     <h2>Books available on all locality</h2> 
                         <?php
-                        $sql = "SELECT `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
+                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
                         join `users` on `book_list`.`owner_id` = `users`.`user_id`";
                 } ?>
 
@@ -74,6 +74,7 @@ include_once("header.php");
                                 <h4><?= $row["bookname"] ?> <small><i>Posted by <?=$row["username"]?> on February 19, 2016</i></small></h4>
                                 <p>By <?= $row["writer"] ?></p>
                                 <span class="badge badge-secondary"><?= $row["category"] ?></span>
+                                <a class="btn btn-outline-secondary" href="borrowed.php?bookid=<?=$row['book_id']?>">+ Borrow</a>
                             </div>
                         </div>
                                                 
