@@ -1,6 +1,10 @@
 <?php
 session_start();
 require_once("utility/Database.php");
+
+if(isset($_GET['locality'])){
+    $locality = $_GET['locality'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -39,10 +43,22 @@ include_once("header.php");
                 <hr class="d-sm-none">
             </div>
             <div class="col-sm-8">
+                <?php
+                if(isset($locality)){
+?>
+                <h2>Books available on <?=$locality?></h2>
+                <?php $sql = "SELECT `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
+                join `users` on `book_list`.`owner_id` = `users`.`user_id` where `locality` = '$locality'"; }
+                 else { 
+                    ?> 
+                    <h2>Books available on all locality</h2> 
+                        <?php
+                        $sql = "SELECT `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
+                        join `users` on `book_list`.`owner_id` = `users`.`user_id`";
+                } ?>
+
                 <?php                                
-                
-                $sql = "SELECT `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
-                join `users` on `book_list`.`owner_id` = `users`.`user_id`";
+                            
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -60,8 +76,7 @@ include_once("header.php");
                                 <span class="badge badge-secondary"><?= $row["category"] ?></span>
                             </div>
                         </div>
-
-                        <!-- echo "<tr><td>" . $row["name"] . "</td><td>" . $row["writer"] . "</td><td>" . $row["category"] . "</td><td>" . $row["copies"] . "</td></tr>"; ?> <br> -->
+                                                
                     <?php
                 }
             } else {

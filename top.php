@@ -13,8 +13,7 @@
         <ul class="navbar-nav">
             <?php
 
-            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
-                // echo "Welcome " . $_SESSION["user_name"];
+            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {                
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="logout.php">Logout</a>
@@ -42,7 +41,7 @@
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             ?>
-                            <a class="dropdown-item" href="#"><?= $row["locality"] ?></a>
+                            <a class="dropdown-item" href="index.php?locality=<?= $row["locality"] ?>"><?= $row["locality"] ?></a>
                         <?php                        
                     }                    
                 }
