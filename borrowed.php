@@ -86,17 +86,19 @@ include_once("header.php");
 
                 if ($result->num_rows > 0) {
                     // echo "<table><tr><th>Book name</th><th>Writer</th><th>Category</th><th>Number of copies</th></tr>";
-                    
-                    
+
+
                     // output data of each row
                     while ($row = $result->fetch_assoc()) {
-                        $date1 = date("Y-m-d");
-                        $date2 = $row["date"];
-                        $idate = date( 'Y-m-d', strtotime($date2." + 15 day"));
-                        
-                        
-                        
-                        
+                        $borrowdate = $row["date"];
+                        $duedate = date('Y-m-d', strtotime($borrowdate . " + 15 day")); // calculate due date for return
+
+                        $now = time(); // current date in timestamp format (in seconds)
+                        $duedateTimestamp = strtotime($duedate); // convert return due date to seconds for calculation
+                        $datediff = $duedateTimestamp - $now; // calculate difference in seconds
+
+                        $daysLeft = round($datediff / (60 * 60 * 24)); // convert seconds back to days
+
                         ?>
 
                         <div class="media border p-3">
@@ -104,11 +106,22 @@ include_once("header.php");
 
                             <div class="media-body">
                                 <h4><?= $row["name"] ?> <small><i>Borrowed on <?= $row["date"] ?></i></small></h4>
-                                <p>By <?= $row["writer"] ?></p>
-                                <div class="alert alert-warning">
-                                    <strong>Warning!</strong> You should retun this in day(s)
-                                </div>
-                                <span class="badge badge-secondary"><?= $row["category"] ?></span>
+                                <p>By <?= $row["writer"] ?> <span class="badge badge-secondary"><?= $row["category"] ?></span> </p>
+                                <?php
+                                if ($daysLeft >= 0) {
+                                    ?>
+                                    <div class="alert alert-warning">
+                                        You should return this book on or before <?= $duedate ?>. <strong><?= $daysLeft ?> day(s) left</strong>
+                                    </div>
+                                <?php
+                            } else {
+                                ?>
+                                    <div class="alert alert-danger">
+                                        Return date expires on <?= $duedate ?>. <strong><?= ($daysLeft * -1) ?> day(s) ago.</strong>
+                                    </div>
+                                <?php
+                            }
+                            ?>
                                 <a class="btn btn-outline-secondary" href="return.php?bookid=<?= $row['book_id'] ?>"> Return </a>
                             </div>
                         </div>
