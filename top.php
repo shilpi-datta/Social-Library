@@ -16,8 +16,8 @@
             if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                 ?>
                 <!--<li class="nav-item">
-                            <a class="nav-link" href="logout.php">Logout</a>
-                        </li> -->
+                                <a class="nav-link" href="logout.php">Logout</a>
+                            </li> -->
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -49,7 +49,13 @@
         ?>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                    Select area
+                    <?php
+                    if (isset($locality)) {
+                        echo $locality;
+                    } else {
+                        echo "Select Area";
+                    }
+                    ?>
                 </a>
                 <div class="dropdown-menu">
                     <?php
