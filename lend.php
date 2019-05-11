@@ -16,8 +16,8 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
     $category = $_POST['category'];
     $copies = $_POST['copies'];
 
-    $sql = "INSERT INTO `book_list` (`owner_id`,`name`,`writer`,`category`,`copies`)
-    VALUES ('{$_SESSION["user_id"]}','{$name}', '{$writer}','{$category}','{$copies}')";
+    $sql = "INSERT INTO `book_list` (`owner_id`,`name`,`writer`,`category`,`copies`,`date`)
+    VALUES ('{$_SESSION["user_id"]}','{$name}', '{$writer}','{$category}','{$copies}', NOW())";
 
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

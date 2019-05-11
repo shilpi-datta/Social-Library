@@ -49,14 +49,14 @@ include_once("header.php");
                     if (isset($locality)) {
                         ?>
                         <h2>Books available on <?= $locality ?></h2>
-                        <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `owner_id` FROM `book_list` 
+                        <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
                         join `users` on `book_list`.`owner_id` = `users`.`user_id` where `locality` = '$locality' and  `book_list`.`owner_id` != '$userid'";
                     } else {
                         ?>
                         <h2>Books available on all locality</h2>
                         <?php
-                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username  FROM `book_list` 
-                        join `users` on `book_list`.`owner_id` = `users`.`user_id` WHERE `book_list`.`owner_id` != '$userid'";
+                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
+                        join `users` on `book_list`.`owner_id` = `users`.`user_id` where `book_list`.`owner_id` != '$userid'";
                     } ?>
 
                     <?php
@@ -83,7 +83,6 @@ include_once("header.php");
                                             <?php } ?>
                                 </div>
                             </div>
-
                         <?php
                     }
                 } else {
@@ -93,13 +92,13 @@ include_once("header.php");
                 if (isset($locality)) {
                     ?>
                         <h2>Books available on <?= $locality ?></h2>
-                        <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
+                        <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username, `date` FROM `book_list` 
                 join `users` on `book_list`.`owner_id` = `users`.`user_id` where `locality` = '$locality'";
                     } else {
                         ?>
                         <h2>Books available on all locality</h2>
                         <?php
-                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username FROM `book_list` 
+                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username ,`date` FROM `book_list` 
                         join `users` on `book_list`.`owner_id` = `users`.`user_id`";
                     } ?>
 
@@ -118,7 +117,7 @@ include_once("header.php");
                                 <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
 
                                 <div class="media-body">
-                                    <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on February 19, 2016</i></small></h4>
+                                    <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on <?= $row["date"] ?></i></small></h4>
                                     <p>By <?= $row["writer"] ?></p>
                                     <span class="badge badge-secondary"><?= $row["category"] ?></span>
                                     <?php if ($row["copies"] == 0) {

@@ -38,7 +38,7 @@ if (isset($_GET['bookid'])) {
     $sql = "UPDATE `book_list` SET `copies`='{$bcopy}' WHERE `book_id` = '$bookid'";
     if ($conn->query($sql) === TRUE) {
         // echo "$bcopy";
-        $sql = "DELETE FROM `borrowed_books` WHERE `borrowed_id` = '$borrowedid'";
+        $sql = "UPDATE `borrowed_books` SET `return`= 1 WHERE `borrowed_id` = '$borrowedid'";
         if ($conn->query($sql) === TRUE) {
             echo "Success!!!";
         } else {
@@ -91,8 +91,8 @@ include_once("header.php");
                 ?>
                 <h2>You have borrowed</h2>
                 <?php
-                $sql = "SELECT DISTINCT `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer` FROM `book_list`
-                 join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid' AND `book_list` . `book_id` != '$bookid' ";
+                $sql = "SELECT DISTINCT `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer`, `return` FROM `book_list`
+                 join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid' AND `book_list` . `book_id` != '$bookid' AND `return` = 0 ";
 
                 $result = $conn->query($sql);
 
