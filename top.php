@@ -1,6 +1,15 @@
-<div class="jumbotron text-center" style="margin-bottom:0">
-    <h1>Social Library</h1>
-    <p>Lend your unused book to help others</p>
+<div class="jumbotron" style="margin:0;padding:0">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="images/library-icon.png" style="float:right">
+            </div>
+            <div class="col" style="float:left;padding-top:65px;margin-left:-40px">
+                <h1>Social Library</h1>
+                <p>Lend your unused book to help others</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Content here -->
