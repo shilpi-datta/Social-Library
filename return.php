@@ -3,38 +3,50 @@ session_start();
 require_once("utility/Database.php");
 
 $borrowerid = $_SESSION["user_id"];
-
-
 //echo "$borrowerid";
 
 if (isset($_GET['bookid'])) {
     $bookid = $_GET["bookid"];
+    //echo "$bookid";
 
-    $sql = "SELECT `copies` FROM `book_list` WHERE `book_id` = '$bookid'";
+    $sql = "SELECT `copies`  FROM `book_list` WHERE `book_id` = '$bookid'";
+
     $result = $conn->query($sql);
-    if ($result->num_rows > 0){
-        while ($row = $result->fetch_assoc()){
-    $bcopy = $row["copies"];
-   
-    echo "$bcopy";}}
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $bcopy = $row["copies"];
+            //echo "$bcopy";
+        }
+    }
 
-$sql = "INSERT INTO `borrowed_books` (`borrower_id`,`book_id`)
-        VALUES ('{$borrowerid}', '{$bookid}')";
+    $sql = "SELECT `borrowed_id`  FROM `borrowed_books` WHERE `book_id` = '$bookid'";
 
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $borrowedid = $row["borrowed_id"];
+            echo "$borrowedid";
+        }
+    }
+
+
+
+
+
+
+    $bcopy = $bcopy + 1;
+    $sql = "UPDATE `book_list` SET `copies`='{$bcopy}' WHERE `book_id` = '$bookid'";
     if ($conn->query($sql) === TRUE) {
-        echo "Successfully borrowed";
-        $bcopy = $bcopy - 1;
-        $sql = "UPDATE `book_list` SET `copies`='{$bcopy}' WHERE `book_id` = '$bookid'";
+        // echo "$bcopy";
+        $sql = "DELETE FROM `borrowed_books` WHERE `borrowed_id` = '$borrowedid'";
         if ($conn->query($sql) === TRUE) {
-            echo "$bcopy";
+            echo "Success!!!";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
-       
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
-    
 }
 
 ?>
@@ -77,11 +89,11 @@ include_once("header.php");
             <div class="col-sm-8">
                 <?php
                 ?>
-                 <h2>You have borrowed</h2>
+                <h2>You have borrowed</h2>
                 <?php
-                $sql = "SELECT distinct `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer` FROM `book_list`
-                 join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid'";
-            
+                $sql = "SELECT DISTINCT `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer` FROM `book_list`
+                 join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid' AND `book_list` . `book_id` != '$bookid' ";
+
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
@@ -98,7 +110,7 @@ include_once("header.php");
                                 <h4><?= $row["name"] ?> <small><i>Posted on February 19, 2016</i></small></h4>
                                 <p>By <?= $row["writer"] ?></p>
                                 <span class="badge badge-secondary"><?= $row["category"] ?></span>
-                                <a class="btn btn-outline-secondary" href="return.php?bookid=<?= $row['book_id'] ?>" > Return </a>
+                                <a class="btn btn-outline-secondary" href="return.php?bookid=<?= $row['book_id'] ?>"> Return </a>
                             </div>
                         </div>
 

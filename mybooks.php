@@ -2,40 +2,7 @@
 session_start();
 require_once("utility/Database.php");
 
-$borrowerid = $_SESSION["user_id"];
-
-
-//echo "$borrowerid";
-
-if (isset($_GET['bookid'])) {
-    $bookid = $_GET["bookid"];
-
-    $sql = "SELECT `copies` FROM `book_list` WHERE `book_id` = '$bookid'";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0){
-        while ($row = $result->fetch_assoc()){
-    $bcopy = $row["copies"];
-   
-    echo "$bcopy";}}
-
-$sql = "INSERT INTO `borrowed_books` (`borrower_id`,`book_id`)
-        VALUES ('{$borrowerid}', '{$bookid}')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Successfully borrowed";
-        $bcopy = $bcopy - 1;
-        $sql = "UPDATE `book_list` SET `copies`='{$bcopy}' WHERE `book_id` = '$bookid'";
-        if ($conn->query($sql) === TRUE) {
-            echo "$bcopy";
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-       
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-    
-}
+$userid = $_SESSION["user_id"];
 
 ?>
 
@@ -77,10 +44,10 @@ include_once("header.php");
             <div class="col-sm-8">
                 <?php
                 ?>
-                 <h2>You have borrowed</h2>
+                 <h2>You have Lended</h2>
                 <?php
-                $sql = "SELECT distinct `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer` FROM `book_list`
-                 join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid'";
+                $sql = "SELECT  `book_list` . `book_id` , `owner_id` , `book_list` . `name` , `category` , `writer` FROM `book_list`
+                 join `users` on `book_list` . `owner_id` = `users` . `user_id` WHERE `book_list` . `owner_id` = '$userid'";
             
                 $result = $conn->query($sql);
 
@@ -98,7 +65,7 @@ include_once("header.php");
                                 <h4><?= $row["name"] ?> <small><i>Posted on February 19, 2016</i></small></h4>
                                 <p>By <?= $row["writer"] ?></p>
                                 <span class="badge badge-secondary"><?= $row["category"] ?></span>
-                                <a class="btn btn-outline-secondary" href="return.php?bookid=<?= $row['book_id'] ?>" > Return </a>
+                                
                             </div>
                         </div>
 

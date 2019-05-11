@@ -13,10 +13,24 @@
         <ul class="navbar-nav">
             <?php
 
-            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {                
+            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
                 ?>
-                <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                <!--<li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li> -->
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        <?= $_SESSION["user_name"] ?>
+                    </a>
+                    <div class="dropdown-menu">
+
+                        <a class="dropdown-item" href="logout.php"> Logout </a>
+                        <a class="dropdown-item" href="lend.php"> Lend Books </a>
+                        <a class="dropdown-item" href="borrowed.php"> Borrowed Books </a>
+                        <a class="dropdown-item" href="mybooks.php"> My Books </a>
+
+                    </div>
                 </li>
             <?php
         } else {
@@ -42,10 +56,10 @@
                         while ($row = $result->fetch_assoc()) {
                             ?>
                             <a class="dropdown-item" href="index.php?locality=<?= $row["locality"] ?>"><?= $row["locality"] ?></a>
-                        <?php                        
-                    }                    
+                        <?php
+                    }
                 }
-                ?>                    
+                ?>
                 </div>
             </li>
         </ul>
