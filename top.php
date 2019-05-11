@@ -25,10 +25,13 @@
                     </a>
                     <div class="dropdown-menu">
 
-                        <a class="dropdown-item" href="logout.php"> Logout </a>
                         <a class="dropdown-item" href="lend.php"> Lend Books </a>
+                        <a class="dropdown-item" href="index.php"> Borrow Books </a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="borrowed.php"> Borrowed Books </a>
                         <a class="dropdown-item" href="mybooks.php"> My Books </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="logout.php"> Logout </a>
 
                     </div>
                 </li>
