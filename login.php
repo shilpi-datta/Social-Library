@@ -50,7 +50,7 @@ include_once("header.php");
     include_once("top.php");
     ?>
 
-    <h2>Login here</h2>
+   
     <!--<form method="POST" action="login.php">
         <input type="text" name="email" placeholder="Email Address">
         <input type="password" name="password" placeholder="Password">
@@ -86,6 +86,7 @@ include_once("header.php");
 
             form {
                 border: 3px solid #f1f1f1;
+                padding: 16px;
             }
 
             input[type=text],
@@ -129,7 +130,7 @@ include_once("header.php");
             }
 
             .container {
-                padding: 16px;
+               
             }
 
             span.psw {
@@ -159,6 +160,7 @@ include_once("header.php");
   </div> -->
 
             <div class="container">
+            <h2>Login here</h2>
                 <label for="name"><b>Username/Email</b></label>
                 <input type="text" placeholder="Enter Username" name="email" required>
 

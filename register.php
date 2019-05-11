@@ -46,7 +46,7 @@ include_once("header.php");
     include_once("top.php");
     ?>
 
-    <h2>Registration Form</h2>
+    
     <!--<form method="POST" action="register.php">
         <input type="text" name="name" placeholder="Name">
         <input type="text" name="locality" placeholder="Locality">
@@ -92,6 +92,7 @@ include_once("header.php");
 
             form {
                 border: 3px solid #f1f1f1;
+                padding: 16px;
             }
 
             input[type=text],
@@ -135,7 +136,7 @@ include_once("header.php");
             }
 
             .container {
-                padding: 16px;
+                
             }
 
             span.psw {
@@ -161,6 +162,7 @@ include_once("header.php");
 
         <form method="POST" action="register.php">
             <div class="container">
+            <h2>Registration Form</h2>
                 <label for="text"><b>Name</b></label>
                 <input type="text" name="name" placeholder="Name">
 

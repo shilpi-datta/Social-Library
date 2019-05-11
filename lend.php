@@ -43,9 +43,9 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
     <?php
     include_once("top.php");
     ?>
-
-    <h2>Book Registration Form</h2>
-    <!--<form method="POST" action="lend.php">
+    <div class="container">
+        <h2>Book Registration Form</h2>
+        <!--<form method="POST" action="lend.php">
         <input type="text" name="name" placeholder="Name">
         <input type="text" name="writer" placeholder="Writer">
         <input type="text" name="category" placeholder="Category">
@@ -53,27 +53,27 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
         <input type="Submit" name="Submit">
     </form> -->
 
-    <form method="POST" action="lend.php">
-        <div class="form-group">
-            <label for="text">Name:</label>
-            <input type="text" class="form-control" name="name" placeholder="Name" required>
-        </div>
-        <div class="form-group">
-            <label for="text">Writer:</label>
-            <input type="text" class="form-control" name="writer" placeholder="Writer" required>
-        </div>
-        <div class="form-group">
-            <label for="text">Categiry:</label>
-            <input type="text" class="form-control" name="category" placeholder="Category" required>
-        </div>
-        <div class="form-group">
-            <label for="text">Copies:</label>
-            <input type="text" class="form-control" name="copies" placeholder="Copies" required>
-        </div>
+        <form method="POST" action="lend.php">
+            <div class="form-group">
+                <label for="text">Name:</label>
+                <input type="text" class="form-control" name="name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <label for="text">Writer:</label>
+                <input type="text" class="form-control" name="writer" placeholder="Writer" required>
+            </div>
+            <div class="form-group">
+                <label for="text">Categiry:</label>
+                <input type="text" class="form-control" name="category" placeholder="Category" required>
+            </div>
+            <div class="form-group">
+                <label for="text">Copies:</label>
+                <input type="text" class="form-control" name="copies" placeholder="Copies" required>
+            </div>
 
-        <button type="Submit" class="btn btn-primary"> + Lend</button>
-    </form>
-
+            <button type="Submit" class="btn btn-primary"> + Lend</button>
+        </form>
+    </div>
 
     <?php
     include_once("footer.php");
