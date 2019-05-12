@@ -88,9 +88,7 @@ include_once("header.php");
             </div>
             <div class="col-sm-8">
                 <?php
-                ?>
-                <h2>You have borrowed</h2>
-                <?php
+                
                 $sql = "SELECT DISTINCT `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer`, `return` FROM `book_list`
                  join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid' AND `book_list` . `book_id` != '$bookid' AND `return` = 0 ";
 
@@ -98,7 +96,9 @@ include_once("header.php");
 
                 if ($result->num_rows > 0) {
                     // echo "<table><tr><th>Book name</th><th>Writer</th><th>Category</th><th>Number of copies</th></tr>";
-
+                    ?>
+                    <h2>You have to return</h2>
+                    <?php
                     // output data of each row
                     while ($row = $result->fetch_assoc()) {
                         ?>
@@ -118,7 +118,9 @@ include_once("header.php");
                     <?php
                 }
             } else {
-                echo "No result found";
+                ?>
+                <h2>You have no book(s) to return</h2>
+                <?php
             }
             ?>
 

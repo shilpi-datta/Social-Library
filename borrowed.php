@@ -76,9 +76,7 @@ include_once("header.php");
             </div>
             <div class="col-sm-8">
                 <?php
-                ?>
-                <h2>You have borrowed</h2>
-                <?php
+                
                 $sql = "SELECT distinct `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer`,`return`,`borrowed_books`.`date` FROM `book_list`
                  join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid' AND `return` = 0";
 
@@ -87,6 +85,9 @@ include_once("header.php");
                 if ($result->num_rows > 0) {
                     // echo "<table><tr><th>Book name</th><th>Writer</th><th>Category</th><th>Number of copies</th></tr>";
 
+                    ?>
+                    <h2>You have borrowed</h2>
+                    <?php
 
                     // output data of each row
                     while ($row = $result->fetch_assoc()) {
@@ -130,7 +131,7 @@ include_once("header.php");
                     <?php
                 }
             } else {
-                ?> <span class="badge badge-secondary"><?= $row["category"] ?></span>
+                ?> <h2>You have no books</h2>
                     <a class="btn btn-outline-secondary" href="index.php"> Borrow Now </a>
                 <?php }
             ?>
