@@ -52,14 +52,77 @@ include_once("header.php");
                         <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
                         join `users` on `book_list`.`owner_id` = `users`.`user_id` where `locality` = '$locality' and  `book_list`.`owner_id` != '$userid'";
                     } else {
-                        ?>
-                        <h2>Books available on all locality</h2>
-                        <?php
-                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
-                        join `users` on `book_list`.`owner_id` = `users`.`user_id` where `book_list`.`owner_id` != '$userid'";
-                    } ?>
+                        $sql = "SELECT  `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , 
+                        `date`  from `book_list`  join `users` on `book_list`.`owner_id` = `users`.`user_id` where `book_list`.`category` in (SELECT DISTINCT `category` 
+                        FROM `book_list` JOIN `borrowed_books` on `book_list`.`book_id` = `borrowed_books`.`book_id` 
+                        WHERE `borrowed_books`.`borrower_id`= '$userid') and `book_list`.`book_id` not in 
+                        (select `book_id` from `borrowed_books` where `borrowed_books`.`borrower_id` = '$userid')";
+                         ?>
+                         <h2>Books based on your choice</h2>
+                         <?php
+                    }
 
-                    <?php
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                       
+                        // output data of each row
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+
+                            <div class="media border p-3">
+                                <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+
+                                <div class="media-body">
+                                    <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on February 19, 2016</i></small></h4>
+                                    <p>By <?= $row["writer"] ?></p>
+                                    <span class="badge badge-secondary"><?= $row["category"] ?></span>
+                                    <?php if ($row["copies"] == 0) {
+                                        ?> <h5> Book is not available <h5>
+                                            <?php } else { ?>
+                                                <a class="btn btn-outline-secondary" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrowed.php?bookid=<?= $row['book_id'] ?>" <?php } else { ?> href="login.php" <?php } ?>>+ Borrow</a>
+                                            <?php } ?>
+                                </div>
+                            </div>
+                        <?php
+                    }
+                } else {
+                    ?>
+                        <h2>Books available on all locality</h2>
+                        <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
+                        join `users` on `book_list`.`owner_id` = `users`.`user_id` where `book_list`.`owner_id` != '$userid'";
+
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+
+                            // output data of each row
+                            while ($row = $result->fetch_assoc()) {
+                                ?>
+
+                                <div class="media border p-3">
+                                    <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+
+                                    <div class="media-body">
+                                        <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on February 19, 2016</i></small></h4>
+                                        <p>By <?= $row["writer"] ?></p>
+                                        <span class="badge badge-secondary"><?= $row["category"] ?></span>
+                                        <?php if ($row["copies"] == 0) {
+                                            ?> <h5> Book is not available <h5>
+                                                <?php } else { ?>
+                                                    <a class="btn btn-outline-secondary" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrowed.php?bookid=<?= $row['book_id'] ?>" <?php } else { ?> href="login.php" <?php } ?>>+ Borrow</a>
+                                                <?php } ?>
+                                    </div>
+                                </div>
+                            <?php
+                        }
+                    }
+                }
+
+                ?>
+                    <h2>Other Books</h2>
+                    <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
+                join `users` on `book_list`.`owner_id` = `users`.`user_id` where`book_list`.`owner_id` != '$userid'";
 
                     $result = $conn->query($sql);
 
@@ -85,68 +148,66 @@ include_once("header.php");
                             </div>
                         <?php
                     }
-                } else {
-                    echo "No result found";
-                }
+                } 
             } else {
-                if (isset($locality)) {
-                    ?>
-                        <h2>Books available on <?= $locality ?></h2>
-                        <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username, `date` FROM `book_list` 
-                join `users` on `book_list`.`owner_id` = `users`.`user_id` where `locality` = '$locality'";
-                    } else {
+                    if (isset($locality)) {
                         ?>
-                        <h2>Books available on all locality</h2>
-                        <?php
-                        $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username ,`date` FROM `book_list` 
-                        join `users` on `book_list`.`owner_id` = `users`.`user_id`";
-                    } ?>
-
-                    <?php
-
-                    $result = $conn->query($sql);
-
-                    if ($result->num_rows > 0) {
-
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
-
+                            <h2>Books available on <?= $locality ?></h2>
+                            <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username, `date` FROM `book_list` 
+                join `users` on `book_list`.`owner_id` = `users`.`user_id` where `locality` = '$locality'";
+                        } else {
                             ?>
-
-                            <div class="media border p-3">
-                                <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
-
-                                <div class="media-body">
-                                    <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on <?= $row["date"] ?></i></small></h4>
-                                    <p>By <?= $row["writer"] ?></p>
-                                    <span class="badge badge-secondary"><?= $row["category"] ?></span>
-                                    <?php if ($row["copies"] == 0) {
-                                        ?> <h5> Book is not available <h5>
-                                            <?php } else { ?>
-                                                <a class="btn btn-outline-secondary" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrowed.php?bookid=<?= $row['book_id'] ?>" <?php } else { ?> href="login.php" <?php } ?>>+ Borrow</a>
-                                            <?php  } ?>
-                                </div>
-                            </div>
+                            <h2>Books available on all locality</h2>
+                            <?php
+                            $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username ,`date` FROM `book_list` 
+                        join `users` on `book_list`.`owner_id` = `users`.`user_id`";
+                        } ?>
 
                         <?php
+
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0) {
+
+                            // output data of each row
+                            while ($row = $result->fetch_assoc()) {
+
+                                ?>
+
+                                <div class="media border p-3">
+                                    <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+
+                                    <div class="media-body">
+                                        <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on <?= $row["date"] ?></i></small></h4>
+                                        <p>By <?= $row["writer"] ?></p>
+                                        <span class="badge badge-secondary"><?= $row["category"] ?></span>
+                                        <?php if ($row["copies"] == 0) {
+                                            ?> <h5> Book is not available <h5>
+                                                <?php } else { ?>
+                                                    <a class="btn btn-outline-secondary" <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) { ?> href="borrowed.php?bookid=<?= $row['book_id'] ?>" <?php } else { ?> href="login.php" <?php } ?>>+ Borrow</a>
+                                                <?php  } ?>
+                                    </div>
+                                </div>
+
+                            <?php
+                        }
+                    } else {
+                        echo "No result found";
                     }
-                } else {
-                    echo "No result found";
                 }
-            }
 
-            ?>
+                ?>
 
+                </div>
             </div>
+
+
         </div>
 
+        <?php
+        include_once("footer.php");
+        ?>
 
-    </div>
+    </body>
 
-    <?php
-    include_once("footer.php");
-    ?>
-
-</body>
-
-</html>
+    </html>
