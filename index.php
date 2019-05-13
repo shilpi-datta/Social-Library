@@ -56,7 +56,7 @@ include_once("header.php");
                         `date`  from `book_list`  join `users` on `book_list`.`owner_id` = `users`.`user_id` where `book_list`.`category` in (SELECT DISTINCT `category` 
                         FROM `book_list` JOIN `borrowed_books` on `book_list`.`book_id` = `borrowed_books`.`book_id` 
                         WHERE `borrowed_books`.`borrower_id`= '$userid') and `book_list`.`book_id` not in 
-                        (select `book_id` from `borrowed_books` where `borrowed_books`.`borrower_id` = '$userid')";
+                        (select `book_id` from `borrowed_books` where `borrowed_books`.`borrower_id` = '$userid')  and `book_list`.`owner_id` != '$userid' ";
                          ?>
                          <h2>Books based on your choice</h2>
                          <?php
@@ -121,8 +121,11 @@ include_once("header.php");
 
                 ?>
                     <h2>Other Books</h2>
-                    <?php $sql = "SELECT `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , `date` FROM `book_list` 
-                join `users` on `book_list`.`owner_id` = `users`.`user_id` where`book_list`.`owner_id` != '$userid'";
+                    <?php $sql = "SELECT  `book_id`, `book_list`.`name` bookname,`writer`,`category`, `copies`,`users`.`name` username , 
+                        `date`  from `book_list`  join `users` on `book_list`.`owner_id` = `users`.`user_id` where `book_list`.`book_id` not in 
+                        (select `book_id` from `borrowed_books` where `borrowed_books`.`borrower_id` = '$userid') and `book_list`.`owner_id` != '$userid' and `book_list`.`category` not in (SELECT DISTINCT `category` 
+                        FROM `book_list` JOIN `borrowed_books` on `book_list`.`book_id` = `borrowed_books`.`book_id` 
+                        WHERE `borrowed_books`.`borrower_id`= '$userid')";
 
                     $result = $conn->query($sql);
 

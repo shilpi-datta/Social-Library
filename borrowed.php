@@ -77,8 +77,9 @@ include_once("header.php");
             <div class="col-sm-8">
                 <?php
                 
-                $sql = "SELECT distinct `book_list` . `book_id` , `owner_id` , `name` , `category` , `writer`,`return`,`borrowed_books`.`date` FROM `book_list`
-                 join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` WHERE `borrower_id` = '$borrowerid' AND `return` = 0";
+                $sql = "SELECT distinct `book_list` . `book_id` , `owner_id` , `book_list`.`name` , `category` , `writer`,`return`,`borrowed_books`.`date` , `phone` FROM `book_list`
+                join `borrowed_books` on `book_list` . `book_id` = `borrowed_books` . `book_id` join `users`on `book_list`.`owner_id` = `users`.`user_id` WHERE `borrower_id` = '$borrowerid' 
+                AND `return` = 0 and `book_list`.`book_id` in (select `borrowed_books`.`book_id` from `borrowed_books` where `borrower_id` = '$borrowerid' AND `return` = 0)";
 
                 $result = $conn->query($sql);
 
@@ -108,6 +109,7 @@ include_once("header.php");
                             <div class="media-body">
                                 <h4><?= $row["name"] ?> <small><i>Borrowed on <?= $row["date"] ?></i></small></h4>
                                 <p>By <?= $row["writer"] ?> <span class="badge badge-secondary"><?= $row["category"] ?></span> </p>
+                                Contact with owner -><a class="btn btn-outline-secondary" href="" title="Phone No-" data-toggle="popover" data-trigger="hover" data-content=<?= $row["phone"] ?>>Click Me</a><br/>
                                 <?php
                                 if ($daysLeft >= 0) {
                                     ?>
