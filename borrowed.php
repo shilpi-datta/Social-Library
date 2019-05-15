@@ -16,7 +16,7 @@ if (isset($_GET['bookid'])) {
         while ($row = $result->fetch_assoc()) {
             $bcopy = $row["copies"];
 
-            echo "$bcopy";
+            //echo "$bcopy";
         }
     }
 
@@ -28,7 +28,7 @@ if (isset($_GET['bookid'])) {
         $bcopy = $bcopy - 1;
         $sql = "UPDATE `book_list` SET `copies`='{$bcopy}' WHERE `book_id` = '$bookid'";
         if ($conn->query($sql) === TRUE) {
-            echo "$bcopy";
+            //echo "$bcopy";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

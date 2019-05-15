@@ -20,7 +20,7 @@ if (isset($_SESSION["loggedin"]) && isset($_POST['name'])) {
     VALUES ('{$_SESSION["user_id"]}','{$name}', '{$writer}','{$category}','{$copies}', NOW())";
 
     if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
+       // echo "New record created successfully";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

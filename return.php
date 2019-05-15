@@ -25,7 +25,7 @@ if (isset($_GET['bookid'])) {
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $borrowedid = $row["borrowed_id"];
-            echo "$borrowedid";
+            //echo "$borrowedid";
         }
     }
 
@@ -40,7 +40,7 @@ if (isset($_GET['bookid'])) {
         // echo "$bcopy";
         $sql = "UPDATE `borrowed_books` SET `return`= 1 WHERE `borrowed_id` = '$borrowedid'";
         if ($conn->query($sql) === TRUE) {
-            echo "Success!!!";
+           // echo "Success!!!";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
