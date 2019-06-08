@@ -64,7 +64,7 @@ include_once("header.php");
                                 <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
 
                                 <div class="media-body">
-                                    <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on February 19, 2016</i></small></h4>
+                                    <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on <?= $row["date"] ?></i></small></h4>
                                     <p>By <?= $row["writer"] ?></p>
                                     <span class="badge badge-secondary"><?= $row["category"] ?></span>
                                     <?php if ($row["copies"] == 0) {
@@ -98,7 +98,7 @@ include_once("header.php");
                                     <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
 
                                     <div class="media-body">
-                                        <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on February 19, 2016</i></small></h4>
+                                        <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on <?= $row["date"] ?></i></small></h4>
                                         <p>By <?= $row["writer"] ?></p>
                                         <span class="badge badge-secondary"><?= $row["category"] ?></span>
                                         <?php if ($row["copies"] == 0) {
@@ -133,7 +133,7 @@ include_once("header.php");
                                     <img src="images/book.png" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
 
                                     <div class="media-body">
-                                        <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on February 19, 2016</i></small></h4>
+                                        <h4><?= $row["bookname"] ?> <small><i>Posted by <?= $row["username"] ?> on<?= $row["date"] ?></i></small></h4>
                                         <p>By <?= $row["writer"] ?></p>
                                         <span class="badge badge-secondary"><?= $row["category"] ?></span>
                                         <?php if ($row["copies"] == 0) {
